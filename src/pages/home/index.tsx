@@ -4,16 +4,10 @@ import { Container, Hero, Preview } from './styles'
 
 import previewImage from '../../assets/app-preview.png'
 import { ClaimUsernameForm } from './components/ClaimUsernameForm'
-import { NextSeo } from 'next-seo'
 
 export default function Home() {
   return (
     <>
-      <NextSeo
-        title="Uncomplicated Scheduling"
-        description="Connect your calendar and let people book appointments in their free time"
-      />
-
       <Container>
         <Hero>
           <Heading as="h1" size="4xl">
