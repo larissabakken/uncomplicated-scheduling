@@ -121,7 +121,7 @@ export default function TimeIntervals() {
     <>
       <Container>
         <Header>
-          <Heading as="strong">Quase lá</Heading>
+          <Heading as="strong">Almost there!</Heading>
           <Text>
             Set the time range when you are available each day of the week.
           </Text>

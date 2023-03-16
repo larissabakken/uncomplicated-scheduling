@@ -81,7 +81,7 @@ export default function UpdateProfile() {
           </label>
 
           <label>
-            <Text size="sm">Sobre você</Text>
+            <Text size="sm">About you</Text>
             <TextArea {...register("bio")} />
             <FormAnnotation size="sm">
               Tell us a little about yourself. This will be displayed on your

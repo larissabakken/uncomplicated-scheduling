@@ -11,7 +11,7 @@ interface GetWeekDaysParams {
  * @returns An array of week day names.
  */
 export function getWeekDays({ short = false }: GetWeekDaysParams = {}) {
-  const formatter = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' })
+  const formatter = new Intl.DateTimeFormat('en', { weekday: 'long' })
 
   return Array.from(Array(7).keys())
     .map((day) => formatter.format(new Date(Date.UTC(2021, 5, day))))
