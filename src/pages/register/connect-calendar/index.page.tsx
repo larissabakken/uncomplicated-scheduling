@@ -1,34 +1,46 @@
-import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
-import { signIn, useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { ArrowRight, Check } from 'phosphor-react'
-// import { api } from "../../../lib/axios"
-import { Container, Header } from '../styles'
-import { AuthError, ConnectBox, ConnectItem } from './styles'
+import { Button, Heading, MultiStep, Text } from "@ignite-ui/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { ArrowRight, Check } from "phosphor-react";
+import { Container, Header } from "../styles";
+import { AuthError, ConnectBox, ConnectItem } from "./styles";
 
+/**
+ * Component that allows the user to connect their calendar
+ * and move to the next step in the registration process.
+ * @returns JSX.Element
+ */
 export default function ConnectCalendar() {
-  const session = useSession()
-  const router = useRouter()
+  const session = useSession();
+  const router = useRouter();
 
-  const hasAuthError = !!router.query.error
-  const isSignedId = session.status === 'authenticated'
+  const hasAuthError = !!router.query.error;
+  const isSignedId = session.status === "authenticated";
 
+  /**
+   * Function that handles the connection of the Google Calendar account.
+   * @returns Promise<void>
+   */
   async function handleConnectCalendar() {
-    await signIn('google')
+    await signIn("google");
   }
 
+  /**
+   * Function that navigates to the next step in the registration process.
+   * @returns Promise<void>
+   */
   async function handleNavigateToNextStep() {
-    await router.push('/register/time-intervals')
+    await router.push("/register/time-intervals");
   }
 
   return (
     <>
       <Container>
         <Header>
-          <Heading as="strong">Conecte sua agenda!</Heading>
+          <Heading as="strong">Connect your calendar!</Heading>
           <Text>
-            Conecte o seu calendário para verificar automaticamente as horas
-            ocupadas e os novos eventos à medida em que são agendados.
+            Connect your calendar to automatically check busy times and new
+            events as they are scheduled.
           </Text>
 
           <MultiStep size={4} currentStep={2} />
@@ -39,7 +51,7 @@ export default function ConnectCalendar() {
             <Text>Google Calendar</Text>
             {isSignedId ? (
               <Button size="sm" disabled>
-                Conectado
+                Connected.
                 <Check />
               </Button>
             ) : (
@@ -48,7 +60,7 @@ export default function ConnectCalendar() {
                 size="sm"
                 onClick={handleConnectCalendar}
               >
-                Conectar
+                Connect
                 <ArrowRight />
               </Button>
             )}
@@ -56,8 +68,8 @@ export default function ConnectCalendar() {
 
           {hasAuthError && (
             <AuthError size="sm">
-              Falha ao se conectar ao Google, verifique se você habilitou as
-              permissões de acesso ao Google Calendar
+              Failed to connect to Google, please check if you have enabled
+              Google Calendar access permissions.
             </AuthError>
           )}
 
@@ -66,11 +78,11 @@ export default function ConnectCalendar() {
             type="submit"
             disabled={!isSignedId}
           >
-            Próximo passo
+            Next step
             <ArrowRight />
           </Button>
         </ConnectBox>
       </Container>
     </>
-  )
+  );
 }

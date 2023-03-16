@@ -5,6 +5,13 @@ import { z } from 'zod'
 import { getGoogleOAuthToken } from '../../../../lib/google'
 import { prisma } from '../../../../lib/prisma'
 
+/**
+ * Handles creating a new scheduling for a user and adding it to their Google calendar
+ *
+ * @param {NextApiRequest} req - The request object
+ * @param {NextApiResponse} res - The response object
+ * @returns {Promise<void>} - A promise that resolves once the scheduling has been created and added to the user's calendar
+ */
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,

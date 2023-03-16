@@ -1,21 +1,24 @@
-import { Heading, Text } from '@ignite-ui/react'
-import Image from 'next/image'
-import { Container, Hero, Preview } from './styles'
+import { Heading, Text } from "@ignite-ui/react";
+import Image from "next/image";
+import { Container, Hero, Preview } from "./styles";
 
-import previewImage from '../../assets/app-preview.png'
-import { ClaimUsernameForm } from './components/ClaimUsernameForm'
+import previewImage from "../../assets/app-preview.png";
+import { ClaimUsernameForm } from "./components/ClaimUsernameForm";
 
+/**
+ * Renders the home page with a hero section and a preview section.
+ */
 export default function Home() {
   return (
     <>
       <Container>
         <Hero>
           <Heading as="h1" size="4xl">
-            Agendamento descomplicado
+            Easy scheduling
           </Heading>
           <Text size="xl">
-            Conecte seu calendário e permita que as pessoas marquem agendamentos
-            no seu tempo livre.
+            Connect your calendar and allow people to schedule appointments
+            during your available time.
           </Text>
 
           <ClaimUsernameForm />
@@ -32,5 +35,5 @@ export default function Home() {
         </Preview>
       </Container>
     </>
-  )
+  );
 }

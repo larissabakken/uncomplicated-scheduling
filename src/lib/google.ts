@@ -1,34 +1,36 @@
-import dayjs from 'dayjs'
-import { google } from 'googleapis'
-import { prisma } from './prisma'
+import dayjs from "dayjs";
+import { google } from "googleapis";
+import { prisma } from "./prisma";
 
+// Define function to get a Google OAuth token for a given user ID
 export async function getGoogleOAuthToken(userId: string) {
   const account = await prisma.account.findFirstOrThrow({
     where: {
-      provider: 'google',
+      provider: "google",
       user_id: userId,
     },
-  })
+  });
 
+  // Create a new OAuth2 object using the Google client ID and secret
   const auth = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-  )
+    process.env.GOOGLE_CLIENT_SECRET
+  );
 
   auth.setCredentials({
     access_token: account.access_token,
     refresh_token: account.refresh_token,
     expiry_date: account.expires_at ? account.expires_at * 1000 : null,
-  })
+  });
 
   if (!account.expires_at) {
-    return auth
+    return auth;
   }
 
-  const isTokenExpired = dayjs(account.expires_at * 1000).isBefore(new Date())
+  const isTokenExpired = dayjs(account.expires_at * 1000).isBefore(new Date());
 
   if (isTokenExpired) {
-    const { credentials } = await auth.refreshAccessToken()
+    const { credentials } = await auth.refreshAccessToken();
     const {
       access_token,
       expiry_date,
@@ -36,7 +38,7 @@ export async function getGoogleOAuthToken(userId: string) {
       refresh_token,
       scope,
       token_type,
-    } = credentials
+    } = credentials;
 
     await prisma.account.update({
       where: {
@@ -50,14 +52,14 @@ export async function getGoogleOAuthToken(userId: string) {
         scope,
         token_type,
       },
-    })
+    });
 
     auth.setCredentials({
       access_token,
       refresh_token,
       expiry_date,
-    })
+    });
   }
 
-  return auth
+  return auth;
 }

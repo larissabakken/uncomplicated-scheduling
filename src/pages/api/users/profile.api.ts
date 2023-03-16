@@ -4,6 +4,11 @@ import { z } from 'zod'
 import { prisma } from '../../../lib/prisma'
 import { buildNextAuthOptions } from '../auth/[...nextAuth].api'
 
+/**
+ * @typedef {import('next').NextApiRequest} NextApiRequest
+ * @typedef {import('next').NextApiResponse} NextApiResponse
+ * @typedef {import('next-auth').Session} Session
+ * */
 const updateProfileBodySchema = z.object({
   bio: z.string(),
 })

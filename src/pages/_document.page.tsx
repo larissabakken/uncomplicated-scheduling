@@ -1,6 +1,10 @@
 import { getCssText } from '@ignite-ui/react'
 import { Head, Html, Main, NextScript } from 'next/document'
 
+/**
+ * Custom Document component for Next.js.
+ * Renders the HTML document, including the head, body, and scripts.
+ */
 export default function Document() {
   return (
     <Html>

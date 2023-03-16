@@ -10,21 +10,38 @@ import { api } from "../../lib/axios";
 
 import { Container, Form, FormError, Header } from "./styles";
 
+/**
+ * Zod schema for user registration form validation
+ * @type {z.ZodObject}
+ */
 const registerFormSchema = z.object({
   username: z
     .string()
-    .min(3, { message: "O usuário precisa ter pelo menos 3 letras." })
+    .min(3, { message: "The username must have at least 3 letters." })
     .regex(/^([a-z\\-]+)$/i, {
-      message: "O usuário pode ter apenas letras e hifens.",
+      message: "The username can only have letters and hyphens.",
     })
     .transform((username) => username.toLowerCase()),
   name: z
     .string()
-    .min(3, { message: "O nome precisa ter pelo menos 3 letras." }),
+    .min(3, { message: "The name needs to have at least 3 letters." }),
 });
 
 type RegisterFormData = z.infer<typeof registerFormSchema>;
 
+/**
+ * useForm hook used to manage form state and submission
+ * @typedef {Object} useForm
+ * @property {Function} register - Register an input with the form
+ * @property {Function} handleSubmit - Handle the form submission
+ * @property {Function} setValue - Set the value of an input in the form
+ * @property {Object} formState - Object containing form state properties
+ * @property {Object} formState.errors - Object containing form errors
+ * @property {boolean} formState.isSubmitting - Boolean indicating if the form is submitting
+ * @typedef {Object} RegisterFormData - Object containing register form data
+ * @typedef {Object} zodResolver - Object containing schema for validating register form data
+ * @return {JSX.Element}
+ */
 export default function Register() {
   const {
     register,
@@ -38,6 +55,7 @@ export default function Register() {
   const router = useRouter();
 
   useEffect(() => {
+    // Set the initial value for the username input field based on the query
     if (router.query.username) {
       setValue("username", String(router.query.username));
     }
@@ -45,11 +63,13 @@ export default function Register() {
 
   async function handleRegister(data: RegisterFormData) {
     try {
+      // Call the API to create a new user with the submitted data
       await api.post("/users", {
         name: data.name,
         username: data.username,
       });
 
+      // Redirect to the next step in the registration process
       await router.push("/register/connect-calendar");
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
@@ -65,10 +85,10 @@ export default function Register() {
     <>
       <Container>
         <Header>
-          <Heading as="strong">Bem-vindo ao Uncomplicated Scheduling!</Heading>
+          <Heading as="strong">Uncomplicated Scheduling!</Heading>
           <Text>
-            Precisamos de algumas informações para criar seu perfil! Ah, você
-            pode editar essas informações depois.
+            We need some information to create your profile! Oh, you can edit
+            this information later.
           </Text>
 
           <MultiStep size={4} currentStep={1} />
@@ -76,10 +96,10 @@ export default function Register() {
 
         <Form as="form" onSubmit={handleSubmit(handleRegister)}>
           <label>
-            <Text size="sm">Nome de usuário</Text>
+            <Text size="sm">Username</Text>
             <TextInput
               prefix="calendar.com/"
-              placeholder="seu-usuário"
+              placeholder="username"
               {...register("username")}
             />
 
@@ -89,8 +109,8 @@ export default function Register() {
           </label>
 
           <label>
-            <Text size="sm">Nome completo</Text>
-            <TextInput placeholder="Seu nome" {...register("name")} />
+            <Text size="sm">Full Name</Text>
+            <TextInput placeholder="Your Name" {...register("name")} />
 
             {errors.name && (
               <FormError size="sm">{errors.name.message}</FormError>
@@ -98,7 +118,7 @@ export default function Register() {
           </label>
 
           <Button type="submit" disabled={isSubmitting}>
-            Próximo passo
+            Next Step
             <ArrowRight />
           </Button>
         </Form>

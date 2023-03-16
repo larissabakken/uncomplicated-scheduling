@@ -6,18 +6,27 @@ import { z } from "zod";
 import { Form, FormAnnotation } from "./styles";
 import { useRouter } from "next/router";
 
+/**
+ * Schema for the form data to claim a username.
+ * @typedef {object} ClaimUsernameFormData
+ * @property {string} username - The desired username.
+ */
 const ClaimUsernameFormSchema = z.object({
   username: z
     .string()
-    .min(3, { message: "O usuário precisa ter pelo menos 3 letras." })
+    .min(3, { message: "The username must have at least 3 letters." })
     .regex(/^([a-z\\-]+)$/i, {
-      message: "O usuário pode ter apenas letras e hifens.",
+      message: "The username can only have letters and hyphens.",
     })
     .transform((username) => username.toLowerCase()),
 });
 
 type ClaimUsernameFormData = z.infer<typeof ClaimUsernameFormSchema>;
 
+/**
+ * Renders a form to claim a username.
+ * @returns {JSX.Element} The component's UI.
+ */
 export function ClaimUsernameForm() {
   const {
     register,
@@ -29,6 +38,11 @@ export function ClaimUsernameForm() {
 
   const router = useRouter();
 
+  /**
+   * Handles the form submission to claim a username.
+   * @param {ClaimUsernameFormData} data - The form data.
+   * @returns {Promise<void>} A Promise that resolves when the operation completes.
+   */
   async function handleClaimUsername(data: ClaimUsernameFormData) {
     const { username } = data;
 
@@ -41,7 +55,7 @@ export function ClaimUsernameForm() {
         <TextInput
           size="sm"
           prefix="calendar.com/"
-          placeholder="seu-usuário"
+          placeholder="username"
           {...register("username")}
         />
         <Button size="sm" type="submit" disabled={isSubmitting}>
@@ -54,7 +68,7 @@ export function ClaimUsernameForm() {
         <Text size="sm">
           {errors.username
             ? errors.username.message
-            : "Digite o nome do usuário desejado"}
+            : "Enter the desired username."}
         </Text>
       </FormAnnotation>
     </>
