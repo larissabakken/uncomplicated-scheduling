@@ -2,6 +2,8 @@
 
 Uncomplicated Scheduling is a web application for scheduling appointments, built with Next.js and React. It uses Next.js's server-side rendering capabilities to provide a fast and responsive user experience.
 
+#### Acess the application [here](https://uncomplicated-scheduling.vercel.app).
+
 ## Features
 
 - User authentication with NextAuth.js and Google OAuth
@@ -50,4 +52,4 @@ Uncomplicated Scheduling is a web application for scheduling appointments, built
 This application can be deployed to a hosting service Vercel [here](https://uncomplicated-scheduling.vercel.app).
 Using PlanetScale to deploy the application backend to the cloud.[here](https://docs.planetscale.com/tutorials/deploy-nextjs)
 
-### Contributions are welcome! Feel free to open a pull request or an issue if you have any suggestions or find any bugs.
+##### Contributions are welcome! Feel free to open a pull request or an issue if you have any suggestions or find any bugs.
